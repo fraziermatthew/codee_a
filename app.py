@@ -147,8 +147,11 @@ for n, msg in enumerate(st.session_state.messages):
 
 # Chat logic
 if query := st.chat_input("Let's chat"):
-    if not openai_api_key or openai_api_key != st.secrets["OPENAI_API_KEY_A"]:
-        st.info("Please add your OpenAI API key to continue.")
+    if not openai_api_key:
+        st.info("Please add your Codee-A API key to continue.")
+        st.stop()
+    if openai_api_key != st.secrets["OPENAI_API_KEY_A"]:
+        st.info("The Codee-A API key is incorrect. Please reenter the Codee-A API key.")
         st.stop()
     if not user_id:
         st.info("Please add your Participant # to continue.")
