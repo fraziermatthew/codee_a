@@ -37,7 +37,7 @@ count = 0  # Needed for unique Streamlit keys
 
 # Initialize LLM chain in session_state
 if 'chain' not in st.session_state:
-    st.session_state['chain']= load_chain(openai_api_key=openai_api_key)
+    st.session_state['chain']= load_chain(openai_api_key=st.secrets["OPENAI_API_KEY_A"])
 
 # Initialize chat history
 if "messages" not in st.session_state:
