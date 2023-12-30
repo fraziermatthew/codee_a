@@ -1,4 +1,3 @@
-import os
 import openai
 import streamlit as st
 
@@ -18,8 +17,6 @@ def load_chain(openai_api_key):
     answering user questions.
     :return: The `load_chain()` function returns a ConversationalRetrievalChain object.
     """
-    openai.api_key = st.secrets["OPENAI_API_KEY"]
-    # os.environ['OPENAI_API_KEY'] = openai_api_key
     openai.api_key = openai_api_key
     
     # Load OpenAI embedding model

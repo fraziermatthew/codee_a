@@ -58,8 +58,6 @@ tags = [f"llm_chatbot_stream.py"]
 model = "gpt-4"
 messages = st.session_state.messages
 
-# Display chat messages from history on app rerun
-# Custom avatar for the assistant, default avatar for user
 # Display messages and feedback mechanism
 for n, msg in enumerate(st.session_state.messages):
     if msg["role"] == "assistant":
