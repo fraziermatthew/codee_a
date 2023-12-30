@@ -15,6 +15,8 @@ st.set_page_config(
     layout="wide",
 )
 
+st.title("Codee-A")
+
 with st.expander("ℹ️ Disclaimer"):
     st.caption(
         f"""We appreciate your engagement! Please note, this is research purposes only. 
