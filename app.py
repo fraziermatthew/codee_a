@@ -37,10 +37,6 @@ collector = FeedbackCollector(
 
 count = 0  # Needed for unique Streamlit keys
 
-# Initialize LLM chain in session_state
-if 'chain' not in st.session_state:
-    st.session_state['chain']= load_chain(openai_api_key=st.secrets["OPENAI_API_KEY_A"])
-
 # Initialize chat history
 if "messages" not in st.session_state:
     # Start with first message from assistant
@@ -146,41 +142,56 @@ for n, msg in enumerate(st.session_state.messages):
         #         st.write(feedback4)
 
 # Chat logic
-if query := st.chat_input("Let's chat"):
+if prompt := st.chat_input("Let's chat"):
     if not openai_api_key:
         st.info("Please add your Codee-A API key to continue.")
         st.stop()
-    if openai_api_key != st.secrets["OPENAI_API_KEY_A"]:
+    elif openai_api_key != st.secrets["OPENAI_API_KEY_A"]:
         st.info("The Codee-A API key is incorrect. Please reenter the Codee-A API key.")
         st.stop()
+    else:
+        # Initialize LLM chain in session_state
+        if 'chain' not in st.session_state:
+            st.session_state['chain']= load_chain(openai_api_key=st.secrets["OPENAI_API_KEY_A"])
+  
     if not user_id:
         st.info("Please add your Participant # to continue.")
         st.stop()
     
     # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": query})
+    st.session_state.messages.append({"role": "user", "content": prompt})
     
     # Display user message in chat message container
-    with st.chat_message("user"):
-        st.markdown(query)
+    st.chat_message("user").markdown(prompt)
 
     with st.chat_message("assistant", avatar=codee_avatar):
         message_placeholder = st.empty()
+        generation = ""
         
         # Send user's question to our chain
-        result = st.session_state['chain']({"question": query})
-        response = result['answer']
-        full_response = ""
+        result = st.session_state['chain']({"question": prompt})
+        generation = result['answer']
 
         # Simulate stream of response with milliseconds delay
-        for chunk in response.split():
-            full_response += chunk + " "
+        for chunk in generation.split():
+            generation += chunk + " "
             time.sleep(0.05)
             
             # Add a blinking cursor to simulate typing
-            message_placeholder.markdown(full_response + "▌")
+            message_placeholder.markdown(generation + "▌")
+
+        message_placeholder.markdown(generation)
         
-        message_placeholder.markdown(full_response)
+        logged_prompt = collector.log_prompt(
+            config_model={"model": model},
+            prompt=prompt,
+            generation=generation,
+            session_id=st.session_state['session_id'],
+            tags=tags,
+            user_id=user_id,
+        )
 
     # Add assistant message to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.prompt_ids.append(logged_prompt.id)
+    st.session_state.messages.append({"role": "assistant", "content": generation})
+    st.rerun() 
