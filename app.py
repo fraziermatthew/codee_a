@@ -10,7 +10,7 @@ college_board_logo = "https://wthsscratchpaper.net/wp-content/uploads/2023/03/Co
 codee_avatar = 'https://miro.medium.com/v2/resize:fit:525/1*lyyXmbeoK5JiIBNCnzzjjg.png'
 
 st.set_page_config(
-    page_title="Codee-A",
+    page_title="Codee-Red",
     page_icon=college_board_logo,
     layout="wide",
 )
@@ -41,7 +41,7 @@ count = 0  # Needed for unique Streamlit keys
 if "messages" not in st.session_state:
     # Start with first message from assistant
     st.session_state['messages'] = [{"role": "assistant", 
-                                  "content": f"Hi student! I'm Codee-A, an intelligent AI for Computer Science Principles. How can I help you today?"}]
+                                  "content": f"Hi student! I'm Codee-Red, an intelligent AI for Computer Science Principles. How can I help you today?"}]
 
 # Trubrics info
 if "prompt_ids" not in st.session_state:
