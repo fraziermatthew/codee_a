@@ -15,7 +15,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("Codee-A")
+st.title("Codee-Red")
 
 with st.expander("ℹ️ Disclaimer"):
     st.caption(
