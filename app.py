@@ -144,10 +144,10 @@ for n, msg in enumerate(st.session_state.messages):
 # Chat logic
 if prompt := st.chat_input("Let's chat"):
     if not openai_api_key:
-        st.info("Please add your Codee-A API key to continue.")
+        st.info("Please add your Codee-Red API key to continue.")
         st.stop()
     elif openai_api_key != st.secrets["OPENAI_API_KEY_A"]:
-        st.info("The Codee-A API key is incorrect. Please reenter the Codee-A API key.")
+        st.info("The Codee-Red API key is incorrect. Please reenter the Codee-Red API key.")
         st.stop()
     else:
         # Initialize LLM chain in session_state
